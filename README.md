@@ -139,9 +139,21 @@ dotnet build Learning_AdvancedCSharpStudies.sln -c Debug --verbosity normal
 dotnet test Learning_AdvancedCSharpStudies.sln --verbosity normal
 ```
 
-**Alternative**: Check **View → Tool Windows → Build** or **Unit Tests** for output.
+**Configure Rider for Better Terminal Output**:
 
-See [docs/RIDER_TERMINAL_OUTPUT_FIX.md](docs/RIDER_TERMINAL_OUTPUT_FIX.md) for detailed solutions.
+1. **MSBuild Verbosity** (Recommended):
+   - Settings (`Ctrl+Alt+S` or `File → Settings`)
+   - Navigate to: **Build, Execution, Deployment → Toolset and Build**
+   - Set **"MSBuild verbosity"** to `Normal` or `Detailed`
+
+2. **Alternative Output Locations**:
+   - **Build output**: `View → Tool Windows → Build` (or `Alt+0`)
+   - **Test results**: `View → Tool Windows → Unit Tests` (or `Alt+8`)
+   - **Run output**: `View → Tool Windows → Run` (or `Alt+4`)
+
+**📖 Detailed Guides**:
+- [Rider UI Visual Fix Guide](docs/RIDER_UI_FIX_VISUAL_GUIDE.md) — Step-by-step with screenshots and shortcuts
+- [Complete Troubleshooting](docs/RIDER_TERMINAL_OUTPUT_FIX.md) — Comprehensive technical documentation
 
 ---
 
@@ -181,7 +193,8 @@ See [docs/AITRANSFER_SYNC_SUMMARY.md](docs/AITRANSFER_SYNC_SUMMARY.md) for synch
 | [AITransfer/QUICK_REFERENCE.md](AITransfer/QUICK_REFERENCE.md) | Quick start reference |
 | [AITransfer/TROUBLESHOOTING.md](AITransfer/TROUBLESHOOTING.md) | Common issues and solutions |
 | [docs/AITRANSFER_SYNC_SUMMARY.md](docs/AITRANSFER_SYNC_SUMMARY.md) | Template synchronization guide |
-| [docs/RIDER_TERMINAL_OUTPUT_FIX.md](docs/RIDER_TERMINAL_OUTPUT_FIX.md) | Rider IDE terminal configuration |
+| [docs/RIDER_UI_FIX_VISUAL_GUIDE.md](docs/RIDER_UI_FIX_VISUAL_GUIDE.md) | **Rider terminal fix - Visual step-by-step guide** ⭐ |
+| [docs/RIDER_TERMINAL_OUTPUT_FIX.md](docs/RIDER_TERMINAL_OUTPUT_FIX.md) | Rider IDE terminal - Technical documentation |
 | [.github/copilot-instructions.md](.github/copilot-instructions.md) | GitHub Copilot coding standards |
 | [.junie/guidelines.md](.junie/guidelines.md) | Junie AI assistant guidelines |
 

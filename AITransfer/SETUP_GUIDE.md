@@ -418,15 +418,21 @@ Get-ChildItem -Path "AITransfer" -Force
 
 2. **Configure Rider Settings**:
    - **Settings → Build, Execution, Deployment → Toolset and Build**  
-     Set "MSBuild verbosity" to `Normal` or `Detailed`
+     Open Settings: `Ctrl+Alt+S` (Windows) or `Cmd+,` (Mac)  
+     Navigate to: **Build, Execution, Deployment → Toolset and Build**  
+     Set **"MSBuild verbosity"** to `Normal` or `Detailed`
    
-   - **Settings → Build, Execution, Deployment → Unit Testing**  
-     Enable "Show test output in the run tool window"  
-     Set verbosity to `Normal` or `Detailed`
+   - **Settings → Build, Execution, Deployment → Unit Testing → .NET**  
+     Navigate to: **Build, Execution, Deployment → Unit Testing → .NET**  
+     Configure test output and verbosity options
 
 3. **Check Alternative Output Locations**:
-   - **View → Tool Windows → Build** — for build output
-   - **View → Tool Windows → Unit Tests** — for test results
+   - **Build output**: `View → Tool Windows → Build` (or `Alt+0`)
+   - **Test results**: `View → Tool Windows → Unit Tests` (or `Alt+8`)
+   - **Terminal**: `View → Tool Windows → Terminal` (or `Alt+F12`)
+   - **Run output**: `View → Tool Windows → Run` (or `Alt+4`)
+
+**Quick Access**: Press `Ctrl+Shift+A` (or `Cmd+Shift+A` on Mac) and type the tool window name to open it quickly.
 
 **Note**: The AITransfer templates already include `--verbosity normal` flags by default to prevent this issue.
 - Replace: Your actual project name

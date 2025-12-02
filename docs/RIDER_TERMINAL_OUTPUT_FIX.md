@@ -147,30 +147,128 @@ dotnet test Learning_AdvancedCSharpStudies.sln --verbosity detailed
 
 ### MSBuild Verbosity
 
-**Path**: Settings → Build, Execution, Deployment → Toolset and Build  
+**Path**: `File → Settings → Build, Execution, Deployment → Toolset and Build`  
+**Alternative**: Press `Ctrl+Alt+S` to open Settings, then navigate to path above
+
+**Steps**:
+1. Open Rider Settings (`Ctrl+Alt+S` on Windows, `Cmd+,` on Mac)
+2. In the left sidebar, expand: **Build, Execution, Deployment**
+3. Click on: **Toolset and Build**
+4. In the right panel, find **"MSBuild verbosity"** dropdown
+5. Change from `Minimal` to `Normal` or `Detailed`
+6. Click **Apply**, then **OK**
+
 **Setting**: "MSBuild verbosity"  
 **Recommended Value**: `Normal` or `Detailed`
 
 ### Unit Testing Output
 
-**Path**: Settings → Build, Execution, Deployment → Unit Testing  
-**Settings**:
-- ✅ Enable "Show test output in the run tool window"
-- Set verbosity to `Normal` or `Detailed`
+**Path**: `File → Settings → Build, Execution, Deployment → Unit Testing → .NET`  
+**Alternative**: Press `Ctrl+Alt+S`, search for "Unit Testing"
+
+**Steps**:
+1. Open Rider Settings (`Ctrl+Alt+S`)
+2. Navigate to: **Build, Execution, Deployment → Unit Testing → .NET**
+3. Look for output and verbosity options
+4. Enable relevant output display options
+5. Click **Apply**, then **OK**
+
+**Note**: Specific options may vary by Rider version. Look for settings related to:
+- Test output display
+- Test runner verbosity
+- Console output in tests
+
+### Terminal Settings (if needed)
+
+**Path**: `File → Settings → Tools → Terminal`
+
+**Steps**:
+1. Open Rider Settings (`Ctrl+Alt+S`)
+2. Navigate to: **Tools → Terminal**
+3. Verify **Shell path** is set to PowerShell:
+   - Default: `powershell.exe`
+   - Or full path: `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`
+4. Check **Shell arguments** field (should be empty or minimal)
+5. Click **Apply**, then **OK**
+
+**Important**: Do NOT add `-NoProfile` or output suppression arguments to shell arguments.
 
 ---
 
 ## Alternative Output Locations in Rider
 
-When terminal doesn't show output, check these tool windows:
+When terminal doesn't show output, check these tool windows instead:
 
-| Tool Window | Shortcut | Content |
-|-------------|----------|---------|
-| Build | Alt+0 | Build output, compiler messages |
-| Unit Tests | Alt+8 | Test results, test output |
-| Terminal | Alt+F12 | Command-line interface |
+### Build Tool Window
 
-**Access**: View → Tool Windows → [Window Name]
+**Purpose**: Shows all build output, compiler messages, warnings, and errors
+
+**Access Methods**:
+- **Menu**: `View → Tool Windows → Build`
+- **Keyboard**: `Alt+0` (Windows/Linux) or `Cmd+0` (Mac)
+- **Quick Search**: Press `Ctrl+Shift+A` (or `Cmd+Shift+A` on Mac), type "Build"
+
+**What you'll see**:
+- Restore operations
+- Compilation progress
+- Warnings and errors
+- Build success/failure summary
+- File paths and line numbers for errors
+
+### Unit Tests Tool Window
+
+**Purpose**: Shows test results, test output, and test execution details
+
+**Access Methods**:
+- **Menu**: `View → Tool Windows → Unit Tests`
+- **Keyboard**: `Alt+8` (Windows/Linux) or `Cmd+8` (Mac)
+- **Quick Search**: Press `Ctrl+Shift+A`, type "Unit Tests"
+
+**What you'll see**:
+- Test discovery and execution status
+- Pass/fail results for each test
+- Test output and console messages
+- Stack traces for failed tests
+- Test execution time
+
+### Run Tool Window
+
+**Purpose**: Shows application output when running projects
+
+**Access Methods**:
+- **Menu**: `View → Tool Windows → Run`
+- **Keyboard**: `Alt+4` (Windows/Linux) or `Cmd+4` (Mac)
+- **Quick Search**: Press `Ctrl+Shift+A`, type "Run"
+
+**What you'll see**:
+- Console output from running application
+- Debug output
+- Application exit code
+
+### Terminal Tool Window
+
+**Purpose**: Integrated PowerShell/Command Prompt terminal
+
+**Access Methods**:
+- **Menu**: `View → Tool Windows → Terminal`
+- **Keyboard**: `Alt+F12` (Windows/Linux) or `Option+F12` (Mac)
+- **Bottom stripe**: Click "Terminal" button in bottom tool window stripe
+
+**Tips**:
+- Right-click terminal tab → "Split Right" or "Split Down" for multiple terminals
+- Use dropdown in terminal toolbar to switch between different shell types
+- Always add `--verbosity normal` to `dotnet` commands for visible output
+
+### Solution Explorer (Solution Tool Window)
+
+**Purpose**: Navigate project structure, access project properties
+
+**Access Methods**:
+- **Menu**: `View → Tool Windows → Solution`
+- **Keyboard**: `Alt+1` (Windows/Linux) or `Cmd+1` (Mac)
+- Default location: Left sidebar
+
+**Tip**: Right-click project → Properties to access build settings
 
 ---
 

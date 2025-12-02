@@ -132,15 +132,21 @@ Get-ChildItem -Recurse -Directory -Include bin,obj | Remove-Item -Recurse -Force
 If terminal still shows no output, check these Rider settings:
 
 1. **Settings → Build, Execution, Deployment → Toolset and Build**
-   - Set "MSBuild verbosity" to `Normal` or `Detailed`
+   - Open Settings: `Ctrl+Alt+S` (Windows) or `Cmd+,` (Mac)
+   - Navigate to: **Build, Execution, Deployment → Toolset and Build**
+   - Set **"MSBuild verbosity"** to `Normal` or `Detailed`
+   - Click **Apply** → **OK**
 
-2. **Settings → Build, Execution, Deployment → Unit Testing**
-   - Enable "Show test output in the run tool window"
-   - Set verbosity to `Normal` or `Detailed`
+2. **Settings → Build, Execution, Deployment → Unit Testing → .NET**
+   - Navigate to: **Build, Execution, Deployment → Unit Testing → .NET**
+   - Configure test output and verbosity options
+   - Click **Apply** → **OK**
 
 3. **View Tool Windows** (alternative output locations):
-   - **View → Tool Windows → Build** — for build output
-   - **View → Tool Windows → Unit Tests** — for test results
+   - **Build**: `View → Tool Windows → Build` or `Alt+0`
+   - **Unit Tests**: `View → Tool Windows → Unit Tests` or `Alt+8`
+   - **Terminal**: `View → Tool Windows → Terminal` or `Alt+F12`
+   - **Run**: `View → Tool Windows → Run` or `Alt+4`
 
 ---
 

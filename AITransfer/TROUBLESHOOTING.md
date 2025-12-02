@@ -471,26 +471,29 @@ dotnet test YourSolution.sln --verbosity detailed
 
 **Solution 2: Configure Rider MSBuild Verbosity**
 
-1. Open Rider settings: **File → Settings** (or **Ctrl+Alt+S**)
+1. Open Rider settings: `Ctrl+Alt+S` (Windows) or `Cmd+,` (Mac)
 2. Navigate to: **Build, Execution, Deployment → Toolset and Build**
-3. Find "MSBuild verbosity" dropdown
+3. Find **"MSBuild verbosity"** dropdown in the right panel
 4. Change from `Minimal` to `Normal` or `Detailed`
 5. Click **Apply** and **OK**
 
 **Solution 3: Configure Unit Test Output**
 
-1. Open Rider settings: **File → Settings**
-2. Navigate to: **Build, Execution, Deployment → Unit Testing**
-3. Enable "Show test output in the run tool window"
-4. Set verbosity to `Normal` or `Detailed`
-5. Click **Apply** and **OK**
+1. Open Rider settings: `Ctrl+Alt+S`
+2. Navigate to: **Build, Execution, Deployment → Unit Testing → .NET**
+3. Configure test output and verbosity options (options may vary by Rider version)
+4. Click **Apply** and **OK**
 
 **Solution 4: Use Alternative Output Windows**
 
 Rider routes output to specialized tool windows:
 
-- **Build output**: **View → Tool Windows → Build** (or **Alt+0**)
-- **Test results**: **View → Tool Windows → Unit Tests** (or **Alt+8**)
+- **Build output**: `View → Tool Windows → Build` (or `Alt+0`)
+- **Test results**: `View → Tool Windows → Unit Tests` (or `Alt+8`)
+- **Run output**: `View → Tool Windows → Run` (or `Alt+4`)
+- **Terminal**: `View → Tool Windows → Terminal` (or `Alt+F12`)
+
+**Tip**: Press `Ctrl+Shift+A` (or `Cmd+Shift+A` on Mac) and type the tool window name to quickly access it.
 
 **Solution 5: Test in External Terminal**
 
