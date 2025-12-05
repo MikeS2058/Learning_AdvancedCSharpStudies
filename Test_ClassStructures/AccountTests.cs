@@ -1,4 +1,4 @@
-﻿﻿using Learning_AdvancedCSharpStudies.RecordStudies;
+﻿using Learning_AdvancedCSharpStudies.RecordStudies;
 
 namespace Test_ClassStructures;
 

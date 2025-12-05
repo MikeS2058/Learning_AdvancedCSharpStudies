@@ -11,6 +11,7 @@
 ### 1. ✅ Added Comprehensive XML Documentation
 
 **Added to Record Declaration**:
+
 ```csharp
 /// <summary>
 /// Represents an immutable account with a unique identifier and name.
@@ -18,12 +19,14 @@
 ```
 
 **Added Constructor Parameters Documentation**:
+
 ```csharp
 /// <param name="id">The unique identifier for the account.</param>
 /// <param name="name">The name of the account.</param>
 ```
 
 **Added Exception Documentation**:
+
 ```csharp
 /// <exception cref="ArgumentException">
 /// Thrown when <paramref name="id"/> is <see cref="Guid.Empty"/>.
@@ -34,6 +37,7 @@
 ```
 
 **Added ToString() Documentation**:
+
 ```csharp
 /// <summary>
 /// Returns a string representation of the account.
@@ -46,6 +50,7 @@
 ### 2. ✅ Removed Redundant Property Declarations
 
 **Before** (Primary constructor + property redeclaration):
+
 ```csharp
 public sealed record Account(Guid Id, string Name)
 {
@@ -55,6 +60,7 @@ public sealed record Account(Guid Id, string Name)
 ```
 
 **After** (Explicit constructor, no duplication):
+
 ```csharp
 public sealed record Account
 {
@@ -70,6 +76,7 @@ public sealed record Account
 ```
 
 **Benefits**:
+
 - ✅ No property duplication
 - ✅ Clearer separation of concerns
 - ✅ Validation explicitly in constructor
@@ -80,6 +87,7 @@ public sealed record Account
 ### 3. ✅ Used ArgumentNullException.ThrowIfNullOrWhiteSpace
 
 **Before**:
+
 ```csharp
 private static string ValidateName(string? name, string paramName)
 {
@@ -90,6 +98,7 @@ private static string ValidateName(string? name, string paramName)
 ```
 
 **After**:
+
 ```csharp
 private static string ValidateName(string? name, string paramName)
 {
@@ -99,6 +108,7 @@ private static string ValidateName(string? name, string paramName)
 ```
 
 **Benefits**:
+
 - ✅ Uses .NET 7+ built-in helper
 - ✅ More concise (3 lines → 2 lines)
 - ✅ Standardized exception message
@@ -109,6 +119,7 @@ private static string ValidateName(string? name, string paramName)
 ### 4. ✅ Applied Expression-bodied Members
 
 **Before**:
+
 ```csharp
 private static Guid ValidateGuid(Guid guid, string paramName)
 {
@@ -124,6 +135,7 @@ public override string ToString()
 ```
 
 **After**:
+
 ```csharp
 private static Guid ValidateGuid(Guid guid, string paramName) =>
     guid != Guid.Empty 
@@ -134,6 +146,7 @@ public override string ToString() => $"Account(Id: {Id}, Name: {Name})";
 ```
 
 **Benefits**:
+
 - ✅ More concise for single-expression methods
 - ✅ Aligns with project .editorconfig preferences
 - ✅ Modern C# idiom
@@ -142,13 +155,13 @@ public override string ToString() => $"Account(Id: {Id}, Name: {Name})";
 
 ## Code Quality Improvements
 
-| Metric | Before | After | Improvement |
-|--------|--------|-------|-------------|
-| **XML Documentation** | Partial (properties only) | Complete (all members) | ✅ 100% |
-| **Property Duplication** | Yes (primary + explicit) | No (explicit only) | ✅ Eliminated |
-| **Modern .NET Helpers** | Not used | ThrowIfNullOrWhiteSpace | ✅ Applied |
-| **Expression-bodied Members** | 0/3 methods | 2/2 applicable | ✅ 100% |
-| **Parameter Naming** | PascalCase (Id, Name) | camelCase (id, name) | ✅ Standard |
+| Metric                        | Before                    | After                   | Improvement  |
+|-------------------------------|---------------------------|-------------------------|--------------|
+| **XML Documentation**         | Partial (properties only) | Complete (all members)  | ✅ 100%       |
+| **Property Duplication**      | Yes (primary + explicit)  | No (explicit only)      | ✅ Eliminated |
+| **Modern .NET Helpers**       | Not used                  | ThrowIfNullOrWhiteSpace | ✅ Applied    |
+| **Expression-bodied Members** | 0/3 methods               | 2/2 applicable          | ✅ 100%       |
+| **Parameter Naming**          | PascalCase (Id, Name)     | camelCase (id, name)    | ✅ Standard   |
 
 ---
 
@@ -157,14 +170,17 @@ public override string ToString() => $"Account(Id: {Id}, Name: {Name})";
 Updated `Test_ClassStructures/AccountTests.cs` to match improved implementation:
 
 ### Change 1: Parameter Name Case
+
 **Before**: Expected `ParamName` to be `"Id"` and `"Name"` (PascalCase)  
 **After**: Expected `ParamName` to be `"id"` and `"name"` (camelCase)
 
 ### Change 2: Exception Message
+
 **Before**: Expected custom message `"Name cannot be null or empty*"`  
 **After**: Expected standard .NET message `"*cannot be an empty string or composed entirely of whitespace*"`
 
 ### Test Results
+
 ✅ All 6 tests passing after updates
 
 ---
@@ -230,24 +246,28 @@ public sealed record Account
 ## Best Practices Demonstrated
 
 ### ✅ Modern C# Features
+
 - Sealed records for immutability
 - Init-only properties
 - Expression-bodied members
 - .NET 7+ helpers
 
 ### ✅ Documentation Standards
+
 - Complete XML documentation
 - `<exception>` tags for thrown exceptions
 - `<see cref>` for type references
 - `<see langword>` for keywords
 
 ### ✅ Validation Patterns
+
 - Guard clauses in constructor
 - Descriptive exception messages
 - Proper parameter names in exceptions
 - Immutability enforced
 
 ### ✅ Code Quality
+
 - No duplication
 - Clear separation of concerns
 - Consistent naming conventions
@@ -266,6 +286,7 @@ public sealed record Account
 **Testability**: ✅ Excellent - All behaviors tested
 
 The `Account` record now demonstrates:
+
 - ✅ Proper immutable record design
 - ✅ Modern C# best practices (.NET 7-10 features)
 - ✅ Comprehensive documentation

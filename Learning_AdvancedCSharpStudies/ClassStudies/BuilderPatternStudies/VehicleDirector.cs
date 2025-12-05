@@ -1,9 +1,5 @@
 ﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.BuilderPatternStudies;
 
-#region VehicleClasses
-
-#endregion
-
 #region DirectorClasses
 
 /// <summary>
@@ -25,13 +21,5 @@ public abstract class VehicleDirector
     /// </summary>
     public abstract IVehicle Build();
 }
-
-#endregion
-
-#region BuilderClasses
-
-#endregion
-
-#region ClientClasses
 
 #endregion

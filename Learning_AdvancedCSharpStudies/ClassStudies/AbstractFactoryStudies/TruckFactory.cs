@@ -1,16 +1,25 @@
 ﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
 
 /// <summary>
-/// Factory for creating truck vehicle parts.
+///     Factory for creating truck vehicle parts.
 /// </summary>
 public sealed class TruckFactory : AbstractVehicleFactory
 {
     /// <inheritdoc />
-    public override IBody CreateBody() => new TruckBody();
+    public override IBody CreateBody()
+    {
+        return new TruckBody();
+    }
 
     /// <inheritdoc />
-    public override IChassis CreateChassis() => new TruckChassis();
+    public override IChassis CreateChassis()
+    {
+        return new TruckChassis();
+    }
 
     /// <inheritdoc />
-    public override IGlassWare CreateGlassWare() => new TruckGlassWare();
+    public override IGlassWare CreateGlassWare()
+    {
+        return new TruckGlassWare();
+    }
 }

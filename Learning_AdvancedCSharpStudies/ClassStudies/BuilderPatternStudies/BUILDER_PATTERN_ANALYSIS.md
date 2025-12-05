@@ -2,7 +2,7 @@
 
 **Date**: December 5, 2025  
 **Project**: Learning_AdvancedCSharpStudies  
-**Pattern**: Gang of Four Builder Pattern  
+**Pattern**: Gang of Four Builder Pattern
 
 ---
 
@@ -21,7 +21,9 @@
 
 ## Overview
 
-This implementation demonstrates the **Gang of Four Builder Pattern** with a vehicle construction system. The pattern separates the construction of complex objects (vehicles) from their representation, allowing the same construction process to create different representations.
+This implementation demonstrates the **Gang of Four Builder Pattern** with a vehicle construction system. The pattern
+separates the construction of complex objects (vehicles) from their representation, allowing the same construction
+process to create different representations.
 
 ### Key Components
 
@@ -39,12 +41,14 @@ This implementation demonstrates the **Gang of Four Builder Pattern** with a veh
 The **dashed arrow** in the UML diagram represents a **dependency relationship**, meaning:
 
 #### What It Means
+
 - VehicleDirector **depends on** VehicleBuilder
 - VehicleDirector **uses** VehicleBuilder (doesn't inherit from it)
 - VehicleBuilder is **injected** into VehicleDirector (dependency injection)
 - The client controls the builder's lifecycle, not the director
 
 #### Correct Implementation
+
 ```csharp
 public abstract class VehicleDirector
 {
@@ -59,6 +63,7 @@ public abstract class VehicleDirector
 ```
 
 #### Common Mistake (Avoided)
+
 ```csharp
 // ❌ WRONG - Inheritance instead of composition
 public abstract class VehicleDirector : VehicleBuilder
@@ -98,6 +103,7 @@ public class Car(string[] features) : VehicleBase
 ```
 
 **Key Features:**
+
 - ✅ C# 12 primary constructor syntax
 - ✅ `init` accessors for immutability
 - ✅ `IReadOnlyList<string>` for encapsulation
@@ -123,6 +129,7 @@ public class CarBuilder : VehicleBuilder
 ```
 
 **Key Features:**
+
 - ✅ Abstract base defines interface
 - ✅ Virtual methods with default implementation (`string.Empty`)
 - ✅ Expression-bodied members for conciseness
@@ -169,6 +176,7 @@ public class CarDirector : VehicleDirector
 ```
 
 **Key Features:**
+
 - ✅ Composition over inheritance (uses `_builder` field)
 - ✅ Dependency injection via constructor
 - ✅ Type validation (builder type checking)
@@ -191,6 +199,7 @@ public class CarClient
 ```
 
 **Key Features:**
+
 - ✅ Client controls dependency creation
 - ✅ Clear separation of concerns
 - ✅ Follows Single Responsibility Principle
@@ -226,6 +235,7 @@ var car = carDirector.Build(); // Uses _builder internally
 ### UML Representation
 
 The **dashed arrow** `VehicleDirector -----> VehicleBuilder` communicates:
+
 - "VehicleDirector **depends on** VehicleBuilder being provided from outside"
 - This is the visual representation of dependency injection
 
@@ -278,12 +288,14 @@ car1.Equals(car2);  // FALSE!
 ```
 
 **Why This Breaks the Pattern:**
+
 - `VehicleFeatures` is `IReadOnlyList<string>` (a reference type)
 - Two cars with identical feature lists won't be equal
 - Arrays/lists are compared by reference, not by content
 - Record equality is **misleading** - appears to be value-based but isn't for reference types
 
 **Real-World Impact:**
+
 ```csharp
 // Testing becomes confusing:
 var expectedCar = new Car(new[] { "Body", "Chassis" });
@@ -313,6 +325,7 @@ public record Car(...) : VehicleBase  // Complex constructed object
 ```
 
 **The Problem:**
+
 - Vehicles are **products being assembled**, not **data being transferred**
 - The Builder Pattern emphasizes **construction process**, records emphasize **data structure**
 - Records signal "this is simple data", but vehicles are **complex domain objects**
@@ -338,6 +351,7 @@ public record Car(...) : VehicleBase  // Record inheriting from class
 ```
 
 **Why This is Problematic:**
+
 - `VehicleBase` **must** be a class (it has shared behavior and validation)
 - Mixing record syntax with class inheritance feels **unnatural**
 - Developers expect records to inherit from records, classes from classes
@@ -345,6 +359,7 @@ public record Car(...) : VehicleBase  // Record inheriting from class
 ### 4. ❌ Primary Constructor Ambiguity
 
 **With Classes** (current):
+
 ```csharp
 public class Car(string[] features) : VehicleBase
 //               ^^^^^^^^^^^^^^^^^^
@@ -356,6 +371,7 @@ public class Car(string[] features) : VehicleBase
 ```
 
 **With Records**:
+
 ```csharp
 public record Car(string[] features) : VehicleBase
 //                ^^^^^^^^^^^^^^^^^^
@@ -370,6 +386,7 @@ public record Car(string[] features) : VehicleBase
 ```
 
 **The Issue:**
+
 - Record primary constructors create **public properties** by default
 - Class primary constructors create **private fields** (C# 12)
 - To avoid exposing `features`, you'd need verbose workarounds
@@ -378,6 +395,7 @@ public record Car(string[] features) : VehicleBase
 ### 5. ❌ Testing Complexity
 
 **Expected Behavior (with records):**
+
 ```csharp
 // Developers expect this to work:
 var expectedCar = new Car(new[] { "Body", "Chassis" });
@@ -387,6 +405,7 @@ expectedCar.Should().Be(actualCar);  // FAILS (different array instances)
 ```
 
 **Required Workaround:**
+
 ```csharp
 // You'd need custom assertions:
 actualCar.VehicleType.Should().Be(expectedCar.VehicleType);
@@ -403,6 +422,7 @@ public class VehicleEqualityComparer : IEqualityComparer<IVehicle>
 ```
 
 **The Problem:**
+
 - Records **promise** easy equality testing but **fail** with reference types
 - Testing becomes **more complex**, not simpler
 - Creates false expectations
@@ -410,6 +430,7 @@ public class VehicleEqualityComparer : IEqualityComparer<IVehicle>
 ### 6. ❌ Performance Overhead
 
 Records generate additional methods:
+
 - `Equals(object)` and `Equals(Car)` overloads
 - `GetHashCode()`
 - `PrintMembers()`
@@ -417,6 +438,7 @@ Records generate additional methods:
 - `Deconstruct()`
 
 **Impact:**
+
 ```csharp
 // More IL code generated
 // Larger vtable
@@ -429,6 +451,7 @@ For a **learning exercise** or **high-performance scenarios**, this is unnecessa
 ### 7. ❌ Limited Benefit from Record Features
 
 **`with` expressions** - Not useful for construction:
+
 ```csharp
 var car1 = director.Build();
 var car2 = car1 with { VehicleType = "SportsCar" };  
@@ -439,12 +462,14 @@ var car3 = car1 with { VehicleFeatures = new[] { "New features" } };
 ```
 
 **Deconstruction** - Rarely needed:
+
 ```csharp
 var (type, features) = car;
 // When would you need this in the Builder Pattern?
 ```
 
 **Auto-generated ToString()** - Already have custom:
+
 ```csharp
 // Your custom ToString():
 public override string ToString() =>
@@ -479,19 +504,19 @@ public override string ToString() =>
 
 ## Comparison Table
 
-| Aspect | Class Implementation | Record Implementation | Winner |
-|--------|---------------------|----------------------|--------|
-| **Equality Semantics** | Reference-based (clear expectations) | Value-based (broken for reference types) | ✅ **Class** |
-| **Pattern Alignment** | Perfect fit for Builder Pattern | Designed for DTOs, not constructed objects | ✅ **Class** |
-| **Inheritance** | Natural with abstract base classes | Awkward mixing with class hierarchy | ✅ **Class** |
-| **Primary Constructor** | Clean syntax (C# 12) | Ambiguous (creates public properties) | ✅ **Class** |
-| **Testing** | Explicit assertions (clear intent) | Equality assertions (misleading failures) | ✅ **Class** |
-| **Performance** | Minimal overhead | Extra generated methods | ✅ **Class** |
-| **Immutability** | Manual (`init` accessors) | Built-in (marginal difference) | ⚠️ **Tie** |
-| **ToString()** | Custom implementation (already have) | Auto-generated (less readable) | ✅ **Class** |
-| **`with` expressions** | Not available | Available (limited usefulness) | ⚠️ **Not applicable** |
-| **Learning Value** | Teaches design patterns | Teaches language features | ✅ **Class** |
-| **Code Clarity** | Clear intent (constructed objects) | Confusing intent (data vs objects) | ✅ **Class** |
+| Aspect                  | Class Implementation                 | Record Implementation                      | Winner                |
+|-------------------------|--------------------------------------|--------------------------------------------|-----------------------|
+| **Equality Semantics**  | Reference-based (clear expectations) | Value-based (broken for reference types)   | ✅ **Class**           |
+| **Pattern Alignment**   | Perfect fit for Builder Pattern      | Designed for DTOs, not constructed objects | ✅ **Class**           |
+| **Inheritance**         | Natural with abstract base classes   | Awkward mixing with class hierarchy        | ✅ **Class**           |
+| **Primary Constructor** | Clean syntax (C# 12)                 | Ambiguous (creates public properties)      | ✅ **Class**           |
+| **Testing**             | Explicit assertions (clear intent)   | Equality assertions (misleading failures)  | ✅ **Class**           |
+| **Performance**         | Minimal overhead                     | Extra generated methods                    | ✅ **Class**           |
+| **Immutability**        | Manual (`init` accessors)            | Built-in (marginal difference)             | ⚠️ **Tie**            |
+| **ToString()**          | Custom implementation (already have) | Auto-generated (less readable)             | ✅ **Class**           |
+| **`with` expressions**  | Not available                        | Available (limited usefulness)             | ⚠️ **Not applicable** |
+| **Learning Value**      | Teaches design patterns              | Teaches language features                  | ✅ **Class**           |
+| **Code Clarity**        | Clear intent (constructed objects)   | Confusing intent (data vs objects)         | ✅ **Class**           |
 
 **Final Score: Classes 9, Records 0, Ties 2**
 
@@ -512,26 +537,26 @@ public override string ToString() =>
 ### ✅ SOLID Principles
 
 1. **Single Responsibility**:
-   - Builders: Create parts
-   - Directors: Orchestrate assembly
-   - Products: Represent vehicles
-   - Clients: Control workflow
+    - Builders: Create parts
+    - Directors: Orchestrate assembly
+    - Products: Represent vehicles
+    - Clients: Control workflow
 
 2. **Open/Closed**:
-   - Can add new vehicle types without modifying existing code
-   - Extensible through inheritance
+    - Can add new vehicle types without modifying existing code
+    - Extensible through inheritance
 
 3. **Liskov Substitution**:
-   - Any `VehicleBuilder` can be used by `VehicleDirector`
-   - Any `IVehicle` can be returned by directors
+    - Any `VehicleBuilder` can be used by `VehicleDirector`
+    - Any `IVehicle` can be returned by directors
 
 4. **Interface Segregation**:
-   - `IVehicle` contains only necessary members
-   - Builders define only relevant build methods
+    - `IVehicle` contains only necessary members
+    - Builders define only relevant build methods
 
 5. **Dependency Inversion**:
-   - Directors depend on abstractions (`VehicleBuilder`)
-   - Clients inject concrete implementations
+    - Directors depend on abstractions (`VehicleBuilder`)
+    - Clients inject concrete implementations
 
 ### ✅ Design Pattern Adherence
 
@@ -547,22 +572,26 @@ public override string ToString() =>
 Records are excellent for:
 
 ### 1. Data Transfer Objects (DTOs)
+
 ```csharp
 public record VehicleDto(string Type, string[] Features);
 public record CreateVehicleRequest(string Type, List<string> Features);
 ```
 
 ### 2. API Responses
+
 ```csharp
 public record VehicleResponse(int Id, string Type, ImmutableArray<string> Features);
 ```
 
 ### 3. Configuration Objects
+
 ```csharp
 public record BuilderConfig(int MaxFeatures, bool AllowEmpty, string DefaultType);
 ```
 
 ### 4. Value Objects (with immutable collections)
+
 ```csharp
 public record Money(decimal Amount, string Currency);
 public record Point(int X, int Y);
@@ -570,6 +599,7 @@ public record Address(string Street, string City, string ZipCode);
 ```
 
 ### 5. Simple Domain Events
+
 ```csharp
 public record VehicleCreatedEvent(Guid VehicleId, string Type, DateTime CreatedAt);
 ```
@@ -605,6 +635,7 @@ public record VehicleCreatedEvent(Guid VehicleId, string Type, DateTime CreatedA
 If you want to explore further:
 
 1. **Fluent Builder** (modern C# style):
+
 ```csharp
 var car = new CarBuilder()
     .WithBody()
@@ -614,6 +645,7 @@ var car = new CarBuilder()
 ```
 
 2. **Generic Director**:
+
 ```csharp
 public class GenericDirector<TBuilder, TProduct> 
     where TBuilder : VehicleBuilder
@@ -624,6 +656,7 @@ public class GenericDirector<TBuilder, TProduct>
 ```
 
 3. **Immutable Collections** (if you need true value equality):
+
 ```csharp
 public ImmutableList<string> VehicleFeatures { get; init; }
 ```
@@ -651,6 +684,7 @@ public ImmutableList<string> VehicleFeatures { get; init; }
 6. ✅ **Best practices** - SOLID principles, DI, composition over inheritance
 
 **Your implementation is exemplary.** It demonstrates:
+
 - ✅ Correct understanding of UML diagrams
 - ✅ Proper dependency injection implementation
 - ✅ Gang of Four Builder Pattern adherence

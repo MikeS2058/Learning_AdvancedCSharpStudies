@@ -39,13 +39,13 @@ AnsiConsole.Markup($"[bold red]{string.Join(", ", result.BodyParts)}[/]\n");
 
 #endregion
 
-var carBuilder = new CarBuilder();
-var carDirector = new CarDirector(carBuilder);
-var car = carDirector.Build();
+CarBuilder carBuilder = new();
+CarDirector carDirector = new(carBuilder);
+IVehicle car = carDirector.Build();
 
-var vanBuilder = new VanBuilder();
-var vanDirector = new VanDirector(vanBuilder);
-var van = vanDirector.Build();
+VanBuilder vanBuilder = new();
+VanDirector vanDirector = new(vanBuilder);
+IVehicle van = vanDirector.Build();
 
 
 Console.WriteLine(car.ToString());
@@ -53,8 +53,8 @@ Console.WriteLine(van.ToString());
 
 
 //---------------------------------------------------------
-#region ExitPrompt
 
+#region ExitPrompt
 
 List<string> game = AnsiConsole.Prompt(
     new MultiSelectionPrompt<string>()
