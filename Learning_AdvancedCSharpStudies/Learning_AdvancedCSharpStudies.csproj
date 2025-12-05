@@ -13,8 +13,4 @@
         <PackageReference Include="Spectre.Console" Version="0.54.1-alpha.0.7"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ClassStudies\FactoryStudies\" />
-    </ItemGroup>
-
 </Project>
