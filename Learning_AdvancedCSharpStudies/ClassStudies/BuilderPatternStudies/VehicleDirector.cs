@@ -6,7 +6,6 @@ public interface IVehicle
 {
     string VehicleType { get; }
     IReadOnlyList<string> VehicleFeatures { get; init; }
-    string? ToString();
 }
 
 public abstract class VehicleBase : IVehicle
@@ -17,12 +16,13 @@ public abstract class VehicleBase : IVehicle
     protected static string[] ValidateFeatures(string[] features)
     {
         ArgumentNullException.ThrowIfNull(features);
-        if (features.Length == 0)
-        {
-            throw new ArgumentException("Car must have at least one feature.", nameof(features));
-        }
+        return features.Length == 0 ?
+            throw new ArgumentException("Car must have at least one feature.", nameof(features)) : features;
+    }
 
-        return features;
+    public override string ToString()
+    {
+        return $"{VehicleType} with features: {string.Join(", ", VehicleFeatures)}";
     }
 }
 
@@ -42,58 +42,77 @@ public class Car(string[] features) : VehicleBase
 
 #region DirectorClasses
 
-public abstract class VehicleDirector : VehicleBuilder
+/// <summary>
+/// Abstract director that orchestrates the construction process (VehicleDirector in UML).
+/// Composes VehicleBuilder via field (dashed arrow in UML).
+/// </summary>
+public abstract class VehicleDirector
 {
+    protected readonly VehicleBuilder _builder;
+
+    protected VehicleDirector(VehicleBuilder builder)
+    {
+        ArgumentNullException.ThrowIfNull(builder);
+        _builder = builder;
+    }
+
+    /// <summary>
+    /// Build() method from UML diagram that orchestrates construction.
+    /// </summary>
     public abstract IVehicle Build();
 }
 
+/// <summary>
+/// Concrete director for car construction (CarDirector in UML).
+/// </summary>
 public class CarDirector : VehicleDirector
 {
-    private readonly VehicleBuilder _builder;
-
-    public CarDirector(VehicleBuilder? builder)
+    public CarDirector(VehicleBuilder builder) : base(builder)
     {
-        ArgumentNullException.ThrowIfNull(builder);
         if (builder is not CarBuilder)
         {
             throw new ArgumentException("Builder must be a CarBuilder", nameof(builder));
         }
-
-        _builder = builder;
     }
 
     public override IVehicle Build()
     {
-        _builder.BuildBody();
-        _builder.BuildChassis();
-        _builder.BuildBoot();
-        _builder.BuildPassengerArea();
-        _builder.BuildWindows();
-        return _builder.Vehicle ?? throw new InvalidOperationException("Vehicle not built");
+        var features = new List<string>(6)
+        {
+            _builder.BuildBody(),
+            _builder.BuildChassis(),
+            _builder.BuildBoot(),
+            _builder.BuildPassengerArea(),
+            _builder.BuildReinforcedStorageArea(),
+            _builder.BuildWindows()
+        };
+        return new Car(features.ToArray());
     }
 }
 
+/// <summary>
+/// Concrete director for van construction (VanDirector in UML).
+/// </summary>
 public class VanDirector : VehicleDirector
 {
-    private readonly VehicleBuilder _builder;
-
-    public VanDirector(VehicleBuilder? builder)
+    public VanDirector(VehicleBuilder builder) : base(builder)
     {
-        ArgumentNullException.ThrowIfNull(builder);
         if (builder is not VanBuilder)
         {
             throw new ArgumentException("Builder must be a VanBuilder", nameof(builder));
         }
-
-        _builder = builder;
     }
 
     public override IVehicle Build()
     {
-        _builder.BuildBody();
-        _builder.BuildChassis();
-        _builder.BuildWindows();
-        return _builder.Vehicle ?? throw new InvalidOperationException("Vehicle not built");
+        var features = new List<string>(4)
+        {
+            _builder.BuildBody(),
+            _builder.BuildChassis(),
+            _builder.BuildReinforcedStorageArea(),
+            _builder.BuildWindows()
+        };
+        return new Van(features.ToArray());
     }
 }
 
@@ -101,119 +120,86 @@ public class VanDirector : VehicleDirector
 
 #region BuilderClasses
 
+/// <summary>
+/// Abstract builder defining the interface for creating vehicle parts (VehicleBuilder in UML).
+/// </summary>
 public abstract class VehicleBuilder
 {
-    public IVehicle? Vehicle { get; protected set; }
-    public List<string>[] Features { get; protected set; } = new List<string>[5];
+    public virtual string BuildBody() => string.Empty;
 
-    public virtual string BuildBody()
-    {
-        return string.Empty;
-    }
+    public virtual string BuildChassis() => string.Empty;
 
-    public virtual string BuildChassis()
-    {
-        return string.Empty;
-    }
+    public virtual string BuildBoot() => string.Empty;
 
-    public virtual string BuildBoot()
-    {
-        return string.Empty;
-    }
+    public virtual string BuildPassengerArea() => string.Empty;
 
-    public virtual string BuildPassengerArea()
-    {
-        return string.Empty;
-    }
+    public virtual string BuildWindows() => string.Empty;
 
-    public virtual string BuildWindows()
-    {
-        return string.Empty;
-    }
-
-    protected virtual string BuildReinforcedStorageArea()
-    {
-        return string.Empty;
-    }
+    public virtual string BuildReinforcedStorageArea() => string.Empty;
 }
 
+/// <summary>
+/// Concrete builder for car parts (CarBuilder in UML).
+/// </summary>
 public class CarBuilder : VehicleBuilder
 {
-    public override string BuildBody()
-    {
-        base.BuildBody();
-        return "Car Body Built";
-    }
+    public override string BuildBody() => "Car Body Built";
 
-    public override string BuildChassis()
-    {
-        base.BuildChassis();
-        return "Car Chassis Built";
-    }
+    public override string BuildChassis() => "Car Chassis Built";
 
-    public override string BuildBoot()
-    {
-        base.BuildBoot();
-        return "Car Boot Built";
-    }
+    public override string BuildBoot() => "Car Boot Built";
 
+    public override string BuildPassengerArea() => "Car Passenger Area Built";
 
-    public override string BuildPassengerArea()
-    {
-        base.BuildPassengerArea();
-        return "Car Passenger Area Built";
-    }
+    public override string BuildReinforcedStorageArea() => "Car Reinforced Storage Area Built";
 
-    protected override string BuildReinforcedStorageArea()
-    {
-        base.BuildReinforcedStorageArea();
-        return "Car Reinforced Storage Area Built";
-    }
-
-    public override string BuildWindows()
-    {
-        base.BuildWindows();
-        return "Car Windows Built";
-    }
+    public override string BuildWindows() => "Car Windows Built";
 }
 
+/// <summary>
+/// Concrete builder for van parts (VanBuilder in UML).
+/// </summary>
 public class VanBuilder : VehicleBuilder
 {
-    public override string BuildBody()
-    {
-        base.BuildBody();
-        return "Van Body Built";
-    }
+    public override string BuildBody() => "Van Body Built";
 
-    public override string BuildChassis()
-    {
-        base.BuildChassis();
-        return "Van Chassis Built";
-    }
+    public override string BuildChassis() => "Van Chassis Built";
 
-    protected override string BuildReinforcedStorageArea()
-    {
-        base.BuildReinforcedStorageArea();
-        return "Van Reinforced Storage Area Built";
-    }
+    public override string BuildReinforcedStorageArea() => "Van Reinforced Storage Area Built";
 
-    public override string BuildWindows()
-    {
-        base.BuildWindows();
-        return "Van Windows Built";
-    }
+    public override string BuildWindows() => "Van Windows Built";
 }
 
 #endregion
 
 #region ClientClasses
 
+/// <summary>
+/// Client code that uses director to build a car (CarClient in UML).
+/// </summary>
 public class CarClient
 {
+    public void BuildCar()
+    {
+        var builder = new CarBuilder();
+        var director = new CarDirector(builder);
+        var car = director.Build();
+        Console.WriteLine(car);
+    }
 }
 
+/// <summary>
+/// Client code that uses director to build a van (VanClient in UML).
+/// </summary>
 public class VanClient
 {
+    public void BuildVan()
+    {
+        var builder = new VanBuilder();
+        var director = new VanDirector(builder);
+        var van = director.Build();
+        Console.WriteLine(van);
+    }
 }
 
 #endregion

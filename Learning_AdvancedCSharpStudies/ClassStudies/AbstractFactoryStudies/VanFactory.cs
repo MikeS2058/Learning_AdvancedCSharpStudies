@@ -1,19 +1,16 @@
-﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
+﻿﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
 
-public class VanFactory : AbstractVehicleFactory
+/// <summary>
+/// Factory for creating van vehicle parts.
+/// </summary>
+public sealed class VanFactory : AbstractVehicleFactory
 {
-    public override IBody CreateBody()
-    {
-        return new VanBody();
-    }
+    /// <inheritdoc />
+    public override IBody CreateBody() => new VanBody();
 
-    public override IChassis CreateChassis()
-    {
-        return new VanChassis();
-    }
+    /// <inheritdoc />
+    public override IChassis CreateChassis() => new VanChassis();
 
-    public override IGlassWare CreateGlassWare()
-    {
-        return new VanGlassWare();
-    }
+    /// <inheritdoc />
+    public override IGlassWare CreateGlassWare() => new VanGlassWare();
 }

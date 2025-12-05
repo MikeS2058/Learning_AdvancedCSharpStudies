@@ -1,6 +1,12 @@
-﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
+﻿﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
 
-public class TruckGlassWare : IGlassWare
+/// <summary>
+/// Represents the glassware parts for a truck vehicle.
+/// </summary>
+public sealed record TruckGlassWare : IGlassWare
 {
-    public string GlassWareParts { get; } = "Truck Glass Parts";
+    /// <summary>
+    /// Gets the description of truck glassware parts.
+    /// </summary>
+    public string GlassWareParts { get; init; } = "Truck Glass Parts";
 }

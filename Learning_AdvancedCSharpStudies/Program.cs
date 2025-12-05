@@ -1,13 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
-using static Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies.VehiclePartsHelper;
+
+#region GreetingPrompt
+
+using Learning_AdvancedCSharpStudies.ClassStudies.BuilderPatternStudies;
 
 AnsiConsole.Markup($"[bold blue]Hello Mike! My name is Skynet. Instead of this crazy coding " +
                    $"stuff, let's play a nice game of chess or thermonuclear war.[/]\n");
 
 AnsiConsole.MarkupLine("[yellow]Example 1: Text Prompt[/]");
 
+#endregion
+
+#region AbstractFactoryStudies
 
 List<string> vehicle = AnsiConsole.Prompt(
     new MultiSelectionPrompt<string>()
@@ -19,24 +24,36 @@ List<string> vehicle = AnsiConsole.Prompt(
 
 AnsiConsole.MarkupLine($"Selected vehicle: [cyan]{string.Join(", ", vehicle)}[/]");
 
-// Get vehicle parts only for the vehicles the user selected
-List<(string, string, string)> selectedParts = vehicle
-    .Select(v => v switch
-    {
-        "Car" => GetVehicleParts(new CarFactory()),
-        "Truck" => GetVehicleParts(new TruckFactory()),
-        "Van" => GetVehicleParts(new VanFactory()),
-        _ => ("No Body Parts", "No Chassis Parts", "No GlassWare Parts")
-    })
+// Get vehicle parts only for the vehicles the user selected using Factory Registry
+List<VehicleParts> selectedParts = vehicle
+    .Select(v => GetVehicleParts(VehicleFactoryRegistry.GetFactory(v)))
     .ToList();
 
 (List<string> BodyParts, List<string> ChassisParts, List<string> GlassWareParts) result = (
-    BodyParts: selectedParts.Select(p => p.Item1).ToList(),
-    ChassisParts: selectedParts.Select(p => p.Item2).ToList(),
-    GlassWareParts: selectedParts.Select(p => p.Item3).ToList()
+    BodyParts: selectedParts.Select(p => p.BodyParts).ToList(),
+    ChassisParts: selectedParts.Select(p => p.ChassisParts).ToList(),
+    GlassWareParts: selectedParts.Select(p => p.GlassWareParts).ToList()
 );
 
 AnsiConsole.Markup($"[bold red]{string.Join(", ", result.BodyParts)}[/]\n");
+
+#endregion
+
+var carBuilder = new CarBuilder();
+var carDirector = new CarDirector(carBuilder);
+var car = carDirector.Build();
+
+var vanBuilder = new VanBuilder();
+var vanDirector = new VanDirector(vanBuilder);
+var van = vanDirector.Build();
+
+
+Console.WriteLine(car.ToString());
+Console.WriteLine(van.ToString());
+
+
+//---------------------------------------------------------
+#region ExitPrompt
 
 
 List<string> game = AnsiConsole.Prompt(
@@ -49,3 +66,5 @@ List<string> game = AnsiConsole.Prompt(
 
 AnsiConsole.MarkupLine($"Selected Game: [cyan]{string.Join(", ", game)}[/]");
 AnsiConsole.MarkupLine("[yellow]Good choice. Starting thermonuclear war now...[/]");
+
+#endregion

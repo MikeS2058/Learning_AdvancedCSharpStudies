@@ -1,6 +1,12 @@
-﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
+﻿﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
 
-public class VanChassis : IChassis
+/// <summary>
+/// Represents the chassis parts for a van vehicle.
+/// </summary>
+public sealed record VanChassis : IChassis
 {
-    public string ChassisParts { get; } = "Van Chassis Parts";
+    /// <summary>
+    /// Gets the description of van chassis parts.
+    /// </summary>
+    public string ChassisParts { get; init; } = "Van Chassis Parts";
 }

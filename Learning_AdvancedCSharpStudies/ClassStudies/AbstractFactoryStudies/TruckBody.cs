@@ -1,6 +1,12 @@
 ﻿namespace Learning_AdvancedCSharpStudies.ClassStudies.AbstractFactoryStudies;
 
-public class TruckBody : IBody
+/// <summary>
+/// Represents the body parts for a truck vehicle.
+/// </summary>
+public sealed record TruckBody : IBody
 {
-    public string BodyParts { get; } = "Truck Body Parts";
+    /// <summary>
+    /// Gets the description of truck body parts.
+    /// </summary>
+    public string BodyParts { get; init; } = "Truck Body Parts";
 }
