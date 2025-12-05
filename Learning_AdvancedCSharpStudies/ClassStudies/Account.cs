@@ -1,16 +1,14 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Learning_AdvancedCSharpStudies.ClassStudies;
+﻿namespace Learning_AdvancedCSharpStudies.ClassStudies;
 
 public sealed record Account(Guid Id, string Name)
 {
     /// <summary>
-    /// Gets the unique identifier for the account.
+    ///     Gets the unique identifier for the account.
     /// </summary>
     public Guid Id { get; init; } = ValidateGuid(Id, nameof(Id));
 
     /// <summary>
-    /// Gets the name of the account.
+    ///     Gets the name of the account.
     /// </summary>
     public string Name { get; init; } = ValidateName(Name, nameof(Name));
 

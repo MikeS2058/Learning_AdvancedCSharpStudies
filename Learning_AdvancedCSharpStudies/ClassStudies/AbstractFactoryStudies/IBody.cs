@@ -2,5 +2,5 @@
 
 public interface IBody
 {
-    string BodyParts{get;}
+    string BodyParts { get; }
 }

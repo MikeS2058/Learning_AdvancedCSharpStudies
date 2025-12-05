@@ -5,10 +5,10 @@ public class AccountTests
     [Fact]
     public void Test_AccountCreation()
     {
-        var id = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
         const string name = "Mike Schnobrich";
 
-        var account = new Account(id, name);
+        Account account = new(id, name);
 
         account.Id.Should().Be(id);
         account.Name.Should().Be(name);
@@ -17,12 +17,12 @@ public class AccountTests
     [Fact]
     public void Test_AccountCreation_InvalidName_ThrowsException()
     {
-        var id = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
         const string name = "";
 
         Action act = () =>
         {
-            Account account = new Account(id, name);
+            Account account = new(id, name);
         };
 
         act.Should().Throw<ArgumentException>()
@@ -33,12 +33,12 @@ public class AccountTests
     [Fact]
     public void Test_AccountCreation_EmptyGuid_ThrowsException()
     {
-        var id = Guid.Empty;
+        Guid id = Guid.Empty;
         const string name = "Valid Name";
 
         Action act = () =>
         {
-            Account account = new Account(id, name);
+            Account account = new(id, name);
         };
 
         act.Should().Throw<ArgumentException>()
@@ -49,11 +49,11 @@ public class AccountTests
     [Fact]
     public void Test_AccountToString()
     {
-        var id = Guid.NewGuid();
+        Guid id = Guid.NewGuid();
         const string name = "Mike Schnobrich";
 
-        var account = new Account(id, name);
-        var expectedString = $"Account(Id: {id}, Name: {name})";
+        Account account = new(id, name);
+        string expectedString = $"Account(Id: {id}, Name: {name})";
 
         account.ToString().Should().Be(expectedString);
     }

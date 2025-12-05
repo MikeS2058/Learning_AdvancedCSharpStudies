@@ -2,5 +2,5 @@
 
 public interface IGlassWare
 {
-    string GlassWareParts { get;}
+    string GlassWareParts { get; }
 }
