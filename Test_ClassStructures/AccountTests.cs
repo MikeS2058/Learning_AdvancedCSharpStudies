@@ -1,4 +1,4 @@
-﻿using Learning_AdvancedCSharpStudies.RecordStudies;
+﻿﻿using Learning_AdvancedCSharpStudies.RecordStudies;
 
 namespace Test_ClassStructures;
 
@@ -28,8 +28,8 @@ public class AccountTests
         };
 
         act.Should().Throw<ArgumentException>()
-            .WithMessage("Name cannot be null or empty*")
-            .And.ParamName.Should().Be("Name");
+            .WithMessage("*cannot be an empty string or composed entirely of whitespace*")
+            .And.ParamName.Should().Be("name");
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class AccountTests
 
         act.Should().Throw<ArgumentException>()
             .WithMessage("Id cannot be empty*")
-            .And.ParamName.Should().Be("Id");
+            .And.ParamName.Should().Be("id");
     }
 
     [Fact]

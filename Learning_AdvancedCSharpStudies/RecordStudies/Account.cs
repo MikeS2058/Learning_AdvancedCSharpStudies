@@ -1,31 +1,51 @@
 ﻿namespace Learning_AdvancedCSharpStudies.RecordStudies;
 
-public sealed record Account(Guid Id, string Name)
+/// <summary>
+/// Represents an immutable account with a unique identifier and name.
+/// </summary>
+public sealed record Account
 {
     /// <summary>
-    ///     Gets the unique identifier for the account.
+    /// Gets the unique identifier for the account.
     /// </summary>
-    public Guid Id { get; init; } = ValidateGuid(Id, nameof(Id));
+    public Guid Id { get; init; }
 
     /// <summary>
-    ///     Gets the name of the account.
+    /// Gets the name of the account.
     /// </summary>
-    public string Name { get; init; } = ValidateName(Name, nameof(Name));
+    public string Name { get; init; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Account"/> record.
+    /// </summary>
+    /// <param name="id">The unique identifier for the account.</param>
+    /// <param name="name">The name of the account.</param>
+    /// <exception cref="ArgumentException">
+    /// Thrown when <paramref name="id"/> is <see cref="Guid.Empty"/>.
+    /// </exception>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown when <paramref name="name"/> is <see langword="null"/> or whitespace.
+    /// </exception>
+    public Account(Guid id, string name)
+    {
+        Id = ValidateGuid(id, nameof(id));
+        Name = ValidateName(name, nameof(name));
+    }
 
     private static string ValidateName(string? name, string paramName)
     {
-        return !string.IsNullOrWhiteSpace(name)
-            ? name
-            : throw new ArgumentException("Name cannot be null or empty", paramName);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(name, paramName);
+        return name!;
     }
 
-    private static Guid ValidateGuid(Guid guid, string paramName)
-    {
-        return guid != Guid.Empty ? guid : throw new ArgumentException("Id cannot be empty", paramName);
-    }
+    private static Guid ValidateGuid(Guid guid, string paramName) =>
+        guid != Guid.Empty
+            ? guid
+            : throw new ArgumentException("Id cannot be empty", paramName);
 
-    public override string ToString()
-    {
-        return $"Account(Id: {Id}, Name: {Name})";
-    }
+    /// <summary>
+    /// Returns a string representation of the account.
+    /// </summary>
+    /// <returns>A string containing the account's ID and name.</returns>
+    public override string ToString() => $"Account(Id: {Id}, Name: {Name})";
 }
